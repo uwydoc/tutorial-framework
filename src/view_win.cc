@@ -45,12 +45,18 @@ public:
 
     web_view_->set_parent_window(hwnd_);
 
+    // !!IMPORTANT!!
+    // Add this view to active views before `ShowWindow', otherwise the program
+    // would crash at startup in MS Windows(except Windows 7)
+    // Refer to http://answers.awesomium.com/questions/1644/crash-on-windows-8-and-windows-xp-at-start.html for details
+    g_active_views_.push_back(this);
+
     ShowWindow(hwnd_, SW_SHOWNORMAL);
     UpdateWindow(hwnd_);
 
     SetTimer (hwnd_, 0, 15, NULL );
 
-    g_active_views_.push_back(this);
+    //g_active_views_.push_back(this);
   }
 
   virtual ~ViewWin() {
